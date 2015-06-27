@@ -1,3 +1,4 @@
-bottle==0.12.8
+-e git+git@github.com:rubyyot/knot-a-rumor.git@11db56d15854b7704120f23ce58f36e50b7d124b#egg=knot_a_rumor-origin/master
 py==1.4.30
 pytest==2.7.2
+test-pkg==0.0
