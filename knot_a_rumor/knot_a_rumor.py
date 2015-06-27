@@ -1,0 +1,2 @@
+class Knot:
+    pass
