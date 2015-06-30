@@ -26,3 +26,25 @@ class Story:
 
     def filename(self):
         return join(self.path, "story.yaml")
+
+class Scene():
+    def __init__(self, path, scene_file):
+        self.load(path, scene_file)
+
+    def load(self, path, scene_file):
+        f = open(self.filename(path, scene_file), 'r')
+        text = f.read()
+        f.close()
+
+        data = yaml.load(text)
+        if data == None:
+            return False
+        else:
+            self.narration = data['narration']
+            self.name = data['name']
+            self.scene_map = data['map'].rstrip('\n')
+            return True
+
+    def filename(self, path, scene_file):
+        return join(path, "{0}.yaml".format(scene_file))
+

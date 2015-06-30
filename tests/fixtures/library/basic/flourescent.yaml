@@ -1,6 +1,7 @@
 
-map:
-#############
-###### ######
-###### ######
-###       ###
+name: Flourescent
+map: |
+    ####
+    #  #
+    ####
+narration: This is a basic description of a basic scene

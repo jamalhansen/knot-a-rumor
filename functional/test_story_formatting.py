@@ -1,5 +1,5 @@
 import pytest
-from knot_a_rumor.knot_a_rumor import Knot
+from knot_a_rumor.knot import Knot
 from os import getcwd
 from os.path import join
 
@@ -47,16 +47,16 @@ class TestPennyCanInspectAStory:
         # possibilities presented by the first scene the Runaway Train Showdown. 
         # Starts the story
         self.player_state = self.library.init_story(self.pennys_story)
-        self.player_state = Knot.play(self.player_state)
+        self.player_state = self.library.play(self.player_state)
 
         # Penny receives a description of the scene.  She is on a railway platform in 
         # Pennyslvania awaiting the arrival of her friend who will be on a train
-        setting = Knot.narrate()
+        setting = self.library.narrate()
         assert "awaiting the arrival of your friend" in setting
         assert "train" in setting
 
         # Penny asks for and recieves a map from the story.
-        scene_map = Knot.scene_map()
+        scene_map = self.library.scene_map()
         rows = [
             "###############",
             "###############",
@@ -69,9 +69,9 @@ class TestPennyCanInspectAStory:
         assert expected == scene_map
 
         # Penny moves north once and asks for another map
-        self.player_state = Knot.move(self.player_state, 'n')
+        self.player_state = self.library.move(self.player_state, 'n')
 
-        scene_map = Knot.scene_map()
+        scene_map = self.library.scene_map()
         rows = [
             "###############",
             "#######@#######",
@@ -84,9 +84,9 @@ class TestPennyCanInspectAStory:
         assert expected == scene_map
 
         # Penny moves east seven times and asks for another map
-        self.player_state = Knot.move(self.player_state, 'e', 7)
+        self.player_state = self.library.move(self.player_state, 'e', 7)
 
-        scene_map = Knot.scene_map()
+        scene_map = self.library.scene_map()
         rows = [
             "###############",
             "##############@",
@@ -99,9 +99,9 @@ class TestPennyCanInspectAStory:
         assert expected == scene_map
 
         # Penny tries to move east again but cannot and asks for another map
-        self.player_state = Knot.move(self.player_state, 'e')
+        self.player_state = self.library.move(self.player_state, 'e')
 
-        scene_map = Knot.scene_map()
+        scene_map = self.library.scene_map()
         rows = [
             "###############",
             "##############@",
@@ -114,9 +114,9 @@ class TestPennyCanInspectAStory:
         assert expected == scene_map
 
         # Penny moves north once and asks for another description of the scene 
-        self.player_state = Knot.move(self.player_state, 'n')
+        self.player_state = self.library.move(self.player_state, 'n')
 
-        scene_map = Knot.scene_map()
+        scene_map = self.library.scene_map()
         rows = [
             "##############@",
             "###############",
@@ -127,15 +127,15 @@ class TestPennyCanInspectAStory:
 
         check_location(14,2)
         assert expected == scene_map
-        setting = Knot.narrate()
+        setting = self.library.narrate()
 
         # Penny reads the scene setting and sees that there is a train approaching from western horizon
         assert "western horizon" in setting
 
         # Penny runs to the western end of the platform and asks for another description
-        self.player_state = Knot.move(self.player_state, 'w', 14)
+        self.player_state = self.library.move(self.player_state, 'w', 14)
 
-        scene_map = Knot.scene_map()
+        scene_map = self.library.scene_map()
         rows = [
             "@##############",
             "###############",
@@ -146,7 +146,7 @@ class TestPennyCanInspectAStory:
 
         check_location(0,2)
         assert expected == scene_map
-        setting = Knot.narrate()
+        setting = self.library.narrate()
 
         # Penny reads in the description that the train with a full head of steam wizzes past her
         # going much faster than it should be
