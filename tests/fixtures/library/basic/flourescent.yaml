@@ -5,3 +5,6 @@ map: |
     #  #
     ####
 narration: This is a basic description of a basic scene
+start:
+    x: 1
+    y: 2

@@ -22,17 +22,26 @@ class Knot:
         player_state = { 
             "current_scene": story.scene, 
             "story": name,
+            "location" : { "x":0, "y":0},
             "turn": 0 
             }
         return player_state 
 
     def play(self, player_state):
-        player_state["turn"] += 1
+        self.player_state = player_state
+        self.player_state["turn"] += 1
         self.load_scene(player_state["story"], player_state["current_scene"])
-        return player_state
+        self.player_state["location"] = self.scene.start
+        return self.player_state
+
+    def load_scene(self, story_name, scene_name):
+        self.scene = Scene(self.build_story_path(story_name), scene_name)
+
+    def scene_map(self):
+        x = self.player_state["location"]["x"]
+        y = self.player_state["location"]["y"]
+        return self.scene.build_map(x,y)
 
     def narrate(self):
         return self.scene.narration
 
-    def load_scene(self, story_name, scene_name):
-        self.scene = Scene(self.build_story_path(story_name), scene_name)

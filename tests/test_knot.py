@@ -46,6 +46,12 @@ class TestKnot:
         player_state = self.library.init_story("basic")
         assert "flourescent" == player_state["current_scene"]
 
+    def test_player_state_contains_location(self):
+        player_state = self.library.init_story("basic")
+        assert "location" in player_state.keys()
+        assert "x" in player_state["location"].keys()
+        assert "y" in player_state["location"].keys()
+
     def test_player_state_contains_the_current_story(self):
         player_state = self.library.init_story("basic")
         assert "basic" == player_state["story"]
@@ -62,6 +68,24 @@ class TestKnot:
         player_state = self.library.init_story("basic")
         self.library.load_scene("basic", player_state["current_scene"])
         assert type(self.library.scene) == Scene
+
+    def test_can_return_scene_map(self):
+        player_state = self.library.init_story("basic")
+        player_state = self.library.play(player_state)
+        scene_map = self.library.scene_map()
+        assert "####" in scene_map
+
+    def test_play_will_update_the_starting_location(self):
+        player_state = self.library.init_story("basic")
+        old_x = player_state["location"]["x"]
+        old_y = player_state["location"]["y"]
+
+        player_state = self.library.play(player_state)
+        new_x = player_state["location"]["x"]
+        new_y = player_state["location"]["y"]
+
+        assert new_x != old_x
+        assert new_y != old_y
 
 
 

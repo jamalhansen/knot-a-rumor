@@ -65,7 +65,7 @@ class TestPennyCanInspectAStory:
 
         expected = "\n".join(rows)
 
-        check_location(7,0)
+        self.check_location(7,0)
         assert expected == scene_map
 
         # Penny moves north once and asks for another map
@@ -80,7 +80,7 @@ class TestPennyCanInspectAStory:
 
         expected = "\n".join(rows)
 
-        check_location(7,1)
+        self.check_location(7,1)
         assert expected == scene_map
 
         # Penny moves east seven times and asks for another map
@@ -95,7 +95,7 @@ class TestPennyCanInspectAStory:
 
         expected = "\n".join(rows)
 
-        check_location(14,1)
+        self.check_location(14,1)
         assert expected == scene_map
 
         # Penny tries to move east again but cannot and asks for another map
@@ -110,7 +110,7 @@ class TestPennyCanInspectAStory:
 
         expected = "\n".join(rows)
 
-        check_location(14,1)
+        self.check_location(14,1)
         assert expected == scene_map
 
         # Penny moves north once and asks for another description of the scene 
@@ -125,7 +125,7 @@ class TestPennyCanInspectAStory:
 
         expected = "\n".join(rows)
 
-        check_location(14,2)
+        self.check_location(14,2)
         assert expected == scene_map
         setting = self.library.narrate()
 
@@ -144,7 +144,7 @@ class TestPennyCanInspectAStory:
 
         expected = "\n".join(rows)
 
-        check_location(0,2)
+        self.check_location(0,2)
         assert expected == scene_map
         setting = self.library.narrate()
 

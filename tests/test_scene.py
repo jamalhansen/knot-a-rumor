@@ -38,3 +38,18 @@ class TestScene:
 
         scene_map = "\n".join(rows)
         assert scene_map == self.scene.scene_map
+
+    def test_scene_has_initial_location(self):
+        assert 1 == self.scene.start["x"]
+        assert 2 == self.scene.start["y"]
+
+    def test_scene_will_build_map_with_character(self):
+        rows = [
+            "#@##",
+            "#  #",
+            "####"
+            ]
+
+        scene_map = "\n".join(rows)
+        assert scene_map == self.scene.build_map(1, 2)
+
