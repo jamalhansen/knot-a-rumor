@@ -35,6 +35,13 @@ class Knot:
         return self.player_state
 
     def move(self, player_state, direction, times=1):
+        self.load_scene(player_state["story"], player_state["current_scene"])
+        
+        x = player_state["location"]["x"]
+        y = player_state["location"]["y"]
+        if not self.scene.valid_move(x, y, direction, times):
+            return
+
         if direction == "n":
             player_state["location"]["y"] += times
         elif direction == "s":

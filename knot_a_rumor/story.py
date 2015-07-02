@@ -79,22 +79,30 @@ class Scene():
         x = start_x
         y = start_y
 
-        if direction == "n":
-            y += 1
-        elif direction == "s":
-            y -= 1
-        elif direction == "e":
-            x += 1
-        elif direction == "w":
-            x -= 1
-
         rows = list(reversed(self.scene_map.split("\n")))
-        
-        if len(rows) <= y:
-            return False
-        
-        replaced = list(rows[y])
-        if replaced[x] == "#":
-            return True
-       
-        return False
+
+        for i in range (0, times):
+            if direction == "n":
+                y += 1
+            elif direction == "s":
+                y -= 1
+            elif direction == "e":
+                x += 1
+            elif direction == "w":
+                x -= 1
+            
+            if len(rows) <= y:
+                return False
+
+            if x < 0 or y < 0:
+                return False
+            
+            tiles = list(rows[y])
+
+            if len(tiles) <= x:
+                return False
+
+            if tiles[x] != "#":
+                return False
+           
+        return True
