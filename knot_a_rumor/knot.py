@@ -40,7 +40,7 @@ class Knot:
         x = player_state["location"]["x"]
         y = player_state["location"]["y"]
         if not self.scene.valid_move(x, y, direction, times):
-            return
+            return player_state
 
         if direction == "n":
             player_state["location"]["y"] += times
