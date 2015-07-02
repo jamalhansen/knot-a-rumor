@@ -53,3 +53,29 @@ class TestScene:
         scene_map = "\n".join(rows)
         assert scene_map == self.scene.build_map(1, 2)
 
+    def test_can_move_will_validate_move_north_when_invalid(self):
+        assert False == self.scene.valid_move(1, 2, "n", 1)
+
+    def test_valid_move_doesnt_accept_invalid_directions(self):
+        assert False == self.scene.valid_move(1, 2, "ewio", 1)
+        assert False == self.scene.valid_move(1, 2, False, 1)
+        assert False == self.scene.valid_move(1, 2, "o", 1)
+        assert False == self.scene.valid_move(1, 2, 1, 1)
+
+    def test_valid_move_doesnt_accept_invalid_times(self):
+        assert False == self.scene.valid_move(1, 2, "n", 0)
+        assert False == self.scene.valid_move(1, 2, "n", -1)
+        assert False == self.scene.valid_move(1, 2, "n", "n")
+        assert False == self.scene.valid_move(1, 2, "n", 101)
+
+    def test_valid_move_accepts_valid_moves(self):
+        assert self.scene.valid_move(1, 2, "w", 1)
+        assert self.scene.valid_move(1, 2, "e", 1)
+        assert self.scene.valid_move(0, 2, "s", 1)
+        assert self.scene.valid_move(0, 1, "n", 1)
+        assert self.scene.valid_move(0, 2, "s", 3)
+        assert self.scene.valid_move(0, 0, "e", 3)
+        assert self.scene.valid_move(3, 0, "n", 3)
+        assert self.scene.valid_move(3, 2, "w", 3)
+
+    # next prevent going through walls

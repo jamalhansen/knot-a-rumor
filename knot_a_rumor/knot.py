@@ -34,6 +34,18 @@ class Knot:
         self.player_state["location"] = self.scene.start
         return self.player_state
 
+    def move(self, player_state, direction, times=1):
+        if direction == "n":
+            player_state["location"]["y"] += times
+        elif direction == "s":
+            player_state["location"]["y"] -= times
+        elif direction == "e":
+            player_state["location"]["x"] += times
+        elif direction == "w":
+            player_state["location"]["x"] -= times
+
+        return player_state
+
     def load_scene(self, story_name, scene_name):
         self.scene = Scene(self.build_story_path(story_name), scene_name)
 
@@ -44,4 +56,5 @@ class Knot:
 
     def narrate(self):
         return self.scene.narration
+
 

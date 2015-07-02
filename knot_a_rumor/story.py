@@ -57,3 +57,44 @@ class Scene():
         replaced[player_x] = "@"
         rows[player_y] = ''.join(replaced)
         return "\n".join(list(reversed(rows)))
+
+    def valid_move(self, start_x, start_y, direction, times):
+        # validate direction and times
+        if not type(times) is int:
+            return False
+
+        if not type(direction) is str:
+            return False
+
+        if times < 1 or times > 100:
+            return False
+
+        if len(direction) > 1:
+            return False
+
+        if not direction in "nsew":
+            return False
+
+        # find new postion
+        x = start_x
+        y = start_y
+
+        if direction == "n":
+            y += 1
+        elif direction == "s":
+            y -= 1
+        elif direction == "e":
+            x += 1
+        elif direction == "w":
+            x -= 1
+
+        rows = list(reversed(self.scene_map.split("\n")))
+        
+        if len(rows) <= y:
+            return False
+        
+        replaced = list(rows[y])
+        if replaced[x] == "#":
+            return True
+       
+        return False

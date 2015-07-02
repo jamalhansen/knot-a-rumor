@@ -87,5 +87,67 @@ class TestKnot:
         assert new_x != old_x
         assert new_y != old_y
 
+    def test_move_will_move_a_player_north(self):
+        player_state = self.library.init_story("basic")
+        old_x = player_state["location"]["x"]
+        old_y = player_state["location"]["y"]
+
+        player_state = self.library.move(player_state, "n")
+        new_x = player_state["location"]["x"]
+        new_y = player_state["location"]["y"]
+
+        assert new_x == old_x
+        assert new_y == old_y + 1
+
+    def test_move_will_move_a_player_south(self):
+        player_state = self.library.init_story("basic")
+        old_x = player_state["location"]["x"]
+        old_y = player_state["location"]["y"]
+
+        player_state = self.library.move(player_state, "s")
+        new_x = player_state["location"]["x"]
+        new_y = player_state["location"]["y"]
+
+        assert new_x == old_x
+        assert new_y == old_y - 1
+
+    def test_move_will_move_a_player_east(self):
+        player_state = self.library.init_story("basic")
+        old_x = player_state["location"]["x"]
+        old_y = player_state["location"]["y"]
+
+        player_state = self.library.move(player_state, "e")
+        new_x = player_state["location"]["x"]
+        new_y = player_state["location"]["y"]
+
+        assert new_x == old_x + 1
+        assert new_y == old_y
+
+    def test_move_will_move_a_player_west(self):
+        player_state = self.library.init_story("basic")
+        old_x = player_state["location"]["x"]
+        old_y = player_state["location"]["y"]
+
+        player_state = self.library.move(player_state, "w")
+        new_x = player_state["location"]["x"]
+        new_y = player_state["location"]["y"]
+
+        assert new_x == old_x - 1
+        assert new_y == old_y
+
+    def test_move_accepts_an_optional_repetiton(self):
+        player_state = self.library.init_story("basic")
+        old_x = player_state["location"]["x"]
+        old_y = player_state["location"]["y"]
+
+        player_state = self.library.move(player_state, "n", 3)
+        new_x = player_state["location"]["x"]
+        new_y = player_state["location"]["y"]
+
+        assert new_x == old_x
+        assert new_y == old_y + 3
+
+
+
 
 
