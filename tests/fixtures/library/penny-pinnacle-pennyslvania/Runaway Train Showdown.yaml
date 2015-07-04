@@ -8,3 +8,12 @@ narration: The air is hot and humid as you sit on the railway platform awaiting 
 start: 
     x: 7
     y: 0
+views:
+    approaching_train:
+        x: 14
+        y: 2
+        narration: You see a train approaching from the western horizon.
+    end of chapter:
+        x: 0
+        y: 2
+        narration: The train, with a full head of steam wizzes by the platform!  It is travelling much faster than it should be.

@@ -28,18 +28,14 @@ class Knot:
         return player_state 
 
     def play(self, player_state):
-        self.player_state = player_state
-        self.player_state["turn"] += 1
-        self.load_scene(player_state["story"], player_state["current_scene"])
-        self.player_state["location"] = self.scene.start
-        return self.player_state
+        scene = self.load_scene(player_state)
+        player_state["location"] = scene.start
+        return player_state
 
     def move(self, player_state, direction, times=1):
-        self.load_scene(player_state["story"], player_state["current_scene"])
+        scene = self.load_scene(player_state)
         
-        x = player_state["location"]["x"]
-        y = player_state["location"]["y"]
-        if not self.scene.valid_move(x, y, direction, times):
+        if not scene.valid_move(player_state["location"], direction, times):
             return player_state
 
         if direction == "n":
@@ -51,17 +47,24 @@ class Knot:
         elif direction == "w":
             player_state["location"]["x"] -= times
 
+        player_state["turn"] += 1
         return player_state
 
-    def load_scene(self, story_name, scene_name):
-        self.scene = Scene(self.build_story_path(story_name), scene_name)
+    def load_scene(self, player_state):
+        story_name = player_state["story"]
+        scene_name = player_state["current_scene"]
 
-    def scene_map(self):
-        x = self.player_state["location"]["x"]
-        y = self.player_state["location"]["y"]
-        return self.scene.build_map(x,y)
+        return Scene(self.build_story_path(story_name), scene_name)
 
-    def narrate(self):
-        return self.scene.narration
+    def scene_map(self, player_state):
+        scene = self.load_scene(player_state)
+        return scene.build_map(player_state["location"])
 
+    def narrate(self, player_state):
+        scene = self.load_scene(player_state)
+        narration = scene.view(player_state["location"])
 
+        if narration == None:
+            return scene.narration
+
+        return narration

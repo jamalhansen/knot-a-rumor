@@ -45,20 +45,26 @@ class Scene():
             self.name = data['name']
             self.scene_map = data['map'].rstrip('\n')
             self.start = data['start']
+            self.views = data['views']
 
             return True
 
     def filename(self, path, scene_file):
         return join(path, "{0}.yaml".format(scene_file))
 
-    def build_map(self, player_x, player_y):
+    def build_map(self, location):
+        player_x = location["x"]
+        player_y = location["y"]
         rows = list(reversed(self.scene_map.split("\n")))
         replaced = list(rows[player_y])
         replaced[player_x] = "@"
         rows[player_y] = ''.join(replaced)
         return "\n".join(list(reversed(rows)))
 
-    def valid_move(self, start_x, start_y, direction, times):
+    def valid_move(self, location, direction, times):
+        start_x = location["x"]
+        start_y = location["y"]
+
         # validate direction and times
         if not type(times) is int:
             return False
@@ -106,3 +112,14 @@ class Scene():
                 return False
            
         return True
+
+    def view(self, location):
+        x = location["x"]
+        y = location["y"]
+        narration = None
+
+        for pview in self.views.values():
+            if pview["x"] == x and pview["y"] == y:
+                narration = pview["narration"]
+
+        return narration

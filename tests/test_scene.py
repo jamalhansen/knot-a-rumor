@@ -29,6 +29,19 @@ class TestScene:
         narration = "This is a basic description of a basic scene"
         assert narration == self.scene.narration
 
+    def test_scene_has_views(self):
+        assert len(self.scene.views) > 0
+
+    def test_scene_view_has_name_location_and_narration(self):
+        assert "upper right" in self.scene.views.keys()
+        assert self.scene.views["upper right"]["x"] == 3
+        assert self.scene.views["upper right"]["y"] == 2
+        assert "You are at the" in self.scene.views["upper right"]["narration"]
+
+    def test_can_retrieve_locational_view(self):
+        narration = self.scene.view({"x":3, "y":2})
+        assert "You are at the" in narration
+
     def test_scene_has_a_map(self):
         rows = [
             "####",
@@ -51,40 +64,40 @@ class TestScene:
             ]
 
         scene_map = "\n".join(rows)
-        assert scene_map == self.scene.build_map(1, 2)
+        assert scene_map == self.scene.build_map({"x":1, "y":2})
 
     def test_can_move_will_validate_move_north_when_invalid(self):
-        assert not self.scene.valid_move(1, 2, "n", 1)
+        assert not self.scene.valid_move({"x":1, "y":2}, "n", 1)
 
     def test_valid_move_doesnt_accept_invalid_directions(self):
-        assert not self.scene.valid_move(1, 2, "ewio", 1)
-        assert not self.scene.valid_move(1, 2, False, 1)
-        assert not self.scene.valid_move(1, 2, "o", 1)
-        assert not self.scene.valid_move(1, 2, 1, 1)
+        assert not self.scene.valid_move({"x":1, "y":2}, "ewio", 1)
+        assert not self.scene.valid_move({"x":1, "y":2}, False, 1)
+        assert not self.scene.valid_move({"x":1, "y":2}, "o", 1)
+        assert not self.scene.valid_move({"x":1, "y":2}, 1, 1)
 
     def test_valid_move_doesnt_accept_invalid_times(self):
-        assert not self.scene.valid_move(1, 2, "n", 0)
-        assert not self.scene.valid_move(1, 2, "n", -1)
-        assert not self.scene.valid_move(1, 2, "n", "n")
-        assert not self.scene.valid_move(1, 2, "n", 101)
+        assert not self.scene.valid_move({"x":1, "y":2}, "n", 0)
+        assert not self.scene.valid_move({"x":1, "y":2}, "n", -1)
+        assert not self.scene.valid_move({"x":1, "y":2}, "n", "n")
+        assert not self.scene.valid_move({"x":1, "y":2}, "n", 101)
 
     def test_valid_move_accepts_valid_moves(self):
-        assert self.scene.valid_move(1, 2, "w", 1)
-        assert self.scene.valid_move(1, 2, "e", 1)
-        assert self.scene.valid_move(0, 2, "s", 1)
-        assert self.scene.valid_move(0, 1, "n", 1)
-        assert self.scene.valid_move(0, 2, "s", 2)
-        assert self.scene.valid_move(0, 0, "e", 3)
-        assert self.scene.valid_move(3, 0, "n", 2)
-        assert self.scene.valid_move(3, 2, "w", 3)
+        assert self.scene.valid_move({"x":1, "y":2}, "w", 1)
+        assert self.scene.valid_move({"x":1, "y":2}, "e", 1)
+        assert self.scene.valid_move({"x":0, "y":2}, "s", 1)
+        assert self.scene.valid_move({"x":0, "y":1}, "n", 1)
+        assert self.scene.valid_move({"x":0, "y":2}, "s", 2)
+        assert self.scene.valid_move({"x":0, "y":0}, "e", 3)
+        assert self.scene.valid_move({"x":3, "y":0}, "n", 2)
+        assert self.scene.valid_move({"x":3, "y":2}, "w", 3)
 
     def test_valid_move_does_not_accept_invalid_moves(self):
-        assert not self.scene.valid_move(1, 2, "n", 1)
-        assert not self.scene.valid_move(1, 2, "s", 1)
-        assert not self.scene.valid_move(0, 2, "w", 1)
-        assert not self.scene.valid_move(0, 1, "e", 1)
-        assert not self.scene.valid_move(0, 2, "s", 3)
-        assert not self.scene.valid_move(0, 0, "e", 4)
-        assert not self.scene.valid_move(3, 0, "n", 3)
-        assert not self.scene.valid_move(3, 2, "w", 4)
+        assert not self.scene.valid_move({"x":1, "y":2}, "n", 1)
+        assert not self.scene.valid_move({"x":1, "y":2}, "s", 1)
+        assert not self.scene.valid_move({"x":0, "y":2}, "w", 1)
+        assert not self.scene.valid_move({"x":0, "y":1}, "e", 1)
+        assert not self.scene.valid_move({"x":0, "y":2}, "s", 3)
+        assert not self.scene.valid_move({"x":0, "y":0}, "e", 4)
+        assert not self.scene.valid_move({"x":3, "y":0}, "n", 3)
+        assert not self.scene.valid_move({"x":3, "y":2}, "w", 4)
 
