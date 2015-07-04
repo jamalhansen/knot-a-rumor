@@ -1,6 +1,6 @@
 
 name: Flourescent
-map: |
+scene_map: |
     ####
     #  #
     ####
@@ -13,3 +13,8 @@ views:
         x: 3
         y: 2
         narration: You are at the upper right.
+items:
+    newspaper:
+        x: 2
+        y: 2
+        description: A newspaper whose headline reads, 'Governor arrives today to discuss controversial new policy'

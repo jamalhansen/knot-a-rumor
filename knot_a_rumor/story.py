@@ -18,10 +18,7 @@ class Story:
         if data == None:
             return False
         else:
-            self.author = data['author']
-            self.title = data['title']
-            self.scene = data['scene']
-            self.synopsis = data['synopsis']
+            self.__dict__ = data
 
             return True
 
@@ -41,11 +38,8 @@ class Scene():
         if data == None:
             return False
         else:
-            self.narration = data['narration']
-            self.name = data['name']
-            self.scene_map = data['map'].rstrip('\n')
-            self.start = data['start']
-            self.views = data['views']
+            self.__dict__ = data
+            self.__dict__["scene_map"] = self.__dict__["scene_map"].strip("\n")
 
             return True
 

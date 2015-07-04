@@ -68,3 +68,7 @@ class Knot:
             return scene.narration
 
         return narration
+
+    def look(self, player_state):
+        scene = self.load_scene(player_state)
+        return (player_state, "a small dog")

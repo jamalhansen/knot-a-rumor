@@ -101,3 +101,5 @@ class TestScene:
         assert not self.scene.valid_move({"x":3, "y":0}, "n", 3)
         assert not self.scene.valid_move({"x":3, "y":2}, "w", 4)
 
+    def test_scene_has_items(self):
+        assert len(self.scene.items.keys()) > 0
