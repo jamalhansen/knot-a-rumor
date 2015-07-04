@@ -1,6 +1,7 @@
 
+level: 1
 name: Flourescent
-map: |
+scene_map: |
     ####
     #  #
     ####
@@ -13,3 +14,9 @@ views:
         x: 3
         y: 2
         narration: You are at the upper right.
+items:
+    dog:
+        x: 2
+        y: 2
+        char: d
+        description: A small dog 

@@ -156,7 +156,19 @@ class TestKnot:
         assert new_x == old_x + 2
         assert new_y == old_y    
 
+    def test_player_can_look_to_see_items_on_map(self):
+        state = self.library.init_story("basic")
+        state = self.library.play(state)
+        scene_map = self.library.scene_map(state)
+        assert "#@d#" not in scene_map
+        assert 1 not in state["seen"]
 
+        state, seen = self.library.look(state)
+        assert "dog" in seen
+        assert 1 in state["seen"]
+
+        scene_map = self.library.scene_map(state)
+        assert "#@d#" in scene_map
 
 
 

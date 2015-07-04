@@ -1,6 +1,7 @@
 
+level: 1
 name: Runaway Train Showdown
-map: |
+scene_map: |
     ###############
     ###############
           ##       
@@ -17,3 +18,15 @@ views:
         x: 0
         y: 2
         narration: The train, with a full head of steam wizzes by the platform!  It is travelling much faster than it should be.
+
+items:
+    newspaper:
+        x: 6
+        y: 0
+        char: n
+        description: A newspaper whose gaudy headline announces that today the Governor whose policy has come into controvercy will be arriving via train.
+    box:
+        x: 10
+        y: 1
+        char: b
+        description: A small box labelled 'penny'

@@ -7,18 +7,20 @@ from os.path import join
 class TestScene:
 
     @pytest.fixture()
-    def load_scene(self, story_name, scene_name):
+    def load_scene(self, basic_state):
+        story_name = basic_state["story"]
         self.path = join(getcwd(), "tests", "fixtures", "library", story_name)
-        self.scene = Scene(self.path, scene_name)
+        self.scene = Scene(self.path, basic_state)
 
     @pytest.fixture()
-    def story_name(self):
-        return "basic"
+    def basic_state(self):
+        starting_state = {
+            "story": "basic",
+            "current_scene": "flourescent",
+            "seen": []
+            }
+        return starting_state
 
-    @pytest.fixture()
-    def scene_name(self):
-        return "flourescent"
-   
     def test_scene_has_a_name(self):
         assert "Flourescent" == self.scene.name
 
@@ -64,7 +66,8 @@ class TestScene:
             ]
 
         scene_map = "\n".join(rows)
-        assert scene_map == self.scene.build_map({"x":1, "y":2})
+        state = {"location": {"x":1, "y":2}, "seen": []}
+        assert scene_map == self.scene.build_map(state)
 
     def test_can_move_will_validate_move_north_when_invalid(self):
         assert not self.scene.valid_move({"x":1, "y":2}, "n", 1)
@@ -101,3 +104,24 @@ class TestScene:
         assert not self.scene.valid_move({"x":3, "y":0}, "n", 3)
         assert not self.scene.valid_move({"x":3, "y":2}, "w", 4)
 
+    def test_scene_has_items(self):
+        assert len(self.scene.items.keys()) > 0
+
+    def test_scene_has_a_level_number(self):
+        assert self.scene.level == 1
+
+    def test_scene_has_a_look_method(self):
+        state, view = self.scene.look({"seen": []})
+        assert "dog" in view
+        assert 1 in state["seen"]
+
+    def test_scene_can_describe_items(self):
+        state = {"seen": [1]}
+        state, description = self.scene.describe(state, "d")
+        assert "A small dog" == description
+
+    def test_scene_cannot_describe_items_before_seen(self):
+        state = {"seen": []}
+        state, description = self.scene.describe(state, "d")
+        assert None == description
+        

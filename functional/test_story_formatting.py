@@ -152,3 +152,47 @@ class TestPennyCanInspectAStory:
         # going much faster than it should be
         assert "full head of steam" in setting
         assert "much faster than it should be" in setting
+
+    def test_penny_finds_items_in_the_scene(self):
+        # Penny again returns within minutes, she has not been able to stop 
+        # thinking about the interactive experience that she has had with the 
+        # story.  This time she has decided to stop and look around and examine
+        # the platform more closely.
+
+        # Starts the story
+        self.player_state = self.library.init_story(self.pennys_story)
+        self.player_state = self.library.play(self.player_state)
+
+        # Penny starts the story and uses the 'look' action to view what is 
+        # around her.
+        self.player_state, seen = self.library.look(self.player_state)
+
+        # She sees a newspaper on the ground.  It is dated today and it 
+        # announces that the Governor will be stopping in town today to
+        # announce her new controversial policy
+        assert "newspaper" in seen
+
+
+        self.player_state, description = self.library.describe(self.player_state, "n")
+        assert "Governor" in description
+        assert "policy" in description
+
+        # She now sees the newspaper on the map
+        # Looking at the map she also sees something else
+        scene_map = self.library.scene_map(self.player_state)
+        rows = [
+            "###############",
+            "##########b####",
+            "      n@       "
+            ]
+
+        expected = "\n".join(rows)
+        assert expected == scene_map
+
+        # She asks for more detail about the item and it informs her that 
+        # the location contains a small box, labeled "penny"
+        self.player_state, description = self.library.describe(self.player_state, "b")
+
+        assert "small box" in description
+        assert "penny" in description
+        # Penny quits the game ot ponder the possibilities

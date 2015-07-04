@@ -18,10 +18,7 @@ class Story:
         if data == None:
             return False
         else:
-            self.author = data['author']
-            self.title = data['title']
-            self.scene = data['scene']
-            self.synopsis = data['synopsis']
+            self.__dict__ = data
 
             return True
 
@@ -29,7 +26,8 @@ class Story:
         return join(self.path, "story.yaml")
 
 class Scene():
-    def __init__(self, path, scene_file):
+    def __init__(self, path, state):
+        scene_file = state["current_scene"]
         self.load(path, scene_file)
 
     def load(self, path, scene_file):
@@ -41,25 +39,46 @@ class Scene():
         if data == None:
             return False
         else:
-            self.narration = data['narration']
-            self.name = data['name']
-            self.scene_map = data['map'].rstrip('\n')
-            self.start = data['start']
-            self.views = data['views']
+            self.__dict__ = data
+            self.__dict__["scene_map"] = self.__dict__["scene_map"].strip("\n")
 
             return True
 
     def filename(self, path, scene_file):
         return join(path, "{0}.yaml".format(scene_file))
 
-    def build_map(self, location):
-        player_x = location["x"]
-        player_y = location["y"]
+    def disassemble_map(self):
         rows = list(reversed(self.scene_map.split("\n")))
-        replaced = list(rows[player_y])
-        replaced[player_x] = "@"
-        rows[player_y] = ''.join(replaced)
-        return "\n".join(list(reversed(rows)))
+        disassembled = []
+
+        for row in rows:
+            disassembled.append(list(row))
+
+        return disassembled
+
+    def reassemble_map(self, grid):
+        rows = []
+
+        for row in grid:
+            rows.append(''.join(row))
+
+        reassembled = "\n".join(list(reversed(rows)))
+        return reassembled
+
+    def build_map(self, state):
+        x = state["location"]["x"]
+        y = state["location"]["y"]
+
+        grid = self.disassemble_map()
+
+        grid[y][x] = "@"
+
+        if self.level in state["seen"]:
+            for item in self.items.values():
+                grid[item["y"]][item["x"]] = item["char"]
+
+        reassembled = self.reassemble_map(grid)
+        return reassembled
 
     def valid_move(self, location, direction, times):
         start_x = location["x"]
@@ -123,3 +142,23 @@ class Scene():
                 narration = pview["narration"]
 
         return narration
+
+    def look(self, state):
+        seen = "\n".join(self.items.keys())
+
+        if self.level not in state["seen"]:
+            state["seen"].append(self.level)
+
+        return state, seen 
+
+    def describe(self, state, char):
+        if self.level not in state["seen"]:
+            return state, None
+
+        items = self.items.values()
+
+        item_list = list(filter(lambda x: x["char"] == char, items))
+        if len(item_list) == 0:
+            return state, None
+
+        return state, item_list[0]["description"]
