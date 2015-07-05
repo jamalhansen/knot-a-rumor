@@ -161,9 +161,12 @@ class TestKnot:
         state = self.library.play(state)
         scene_map = self.library.scene_map(state)
         assert "#@d#" not in scene_map
+        assert 1 not in state["seen"]
 
         state, seen = self.library.look(state)
-        assert "a small dog" in seen
+        assert "dog" in seen
+        assert 1 in state["seen"]
+
         scene_map = self.library.scene_map(state)
         assert "#@d#" in scene_map
 

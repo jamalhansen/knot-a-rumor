@@ -171,8 +171,11 @@ class TestPennyCanInspectAStory:
         # announces that the Governor will be stopping in town today to
         # announce her new controversial policy
         assert "newspaper" in seen
-        assert "Governor" in seen
-        assert "policy" in seen
+
+
+        self.player_state, description = self.library.describe(self.player_state, "n")
+        assert "Governor" in description
+        assert "policy" in description
 
         # She now sees the newspaper on the map
         # Looking at the map she also sees something else
@@ -180,7 +183,7 @@ class TestPennyCanInspectAStory:
         rows = [
             "###############",
             "##########b####",
-            "      @n       "
+            "      n@       "
             ]
 
         expected = "\n".join(rows)

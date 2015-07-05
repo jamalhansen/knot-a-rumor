@@ -23,7 +23,8 @@ class Knot:
             "current_scene": story.scene, 
             "story": name,
             "location" : { "x":0, "y":0},
-            "turn": 0 
+            "turn": 0 ,
+            "seen": []
             }
         return player_state 
 
@@ -52,13 +53,12 @@ class Knot:
 
     def load_scene(self, player_state):
         story_name = player_state["story"]
-        scene_name = player_state["current_scene"]
 
-        return Scene(self.build_story_path(story_name), scene_name)
+        return Scene(self.build_story_path(story_name), player_state)
 
     def scene_map(self, player_state):
         scene = self.load_scene(player_state)
-        return scene.build_map(player_state["location"])
+        return scene.build_map(player_state)
 
     def narrate(self, player_state):
         scene = self.load_scene(player_state)
@@ -71,4 +71,9 @@ class Knot:
 
     def look(self, player_state):
         scene = self.load_scene(player_state)
-        return (player_state, "a small dog")
+        player_state, seen = scene.look(player_state)
+        return (player_state, seen)
+
+    def describe(self, player_state, char):
+        scene = self.load_scene(player_state)
+        return scene.describe(player_state, char)
