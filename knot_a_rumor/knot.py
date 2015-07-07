@@ -19,61 +19,68 @@ class Knot:
 
     def init_story(self, name):
         story = self.get_story(name)
-        player_state = { 
+        state = { 
             "current_scene": story.scene, 
             "story": name,
-            "location" : { "x":0, "y":0},
+            "location": {"x":0, "y":0},
             "turn": 0 ,
-            "seen": []
+            "seen": [],
+            "inventory": []
             }
-        return player_state 
+        return state 
 
-    def play(self, player_state):
-        scene = self.load_scene(player_state)
-        player_state["location"] = scene.start
-        return player_state
+    def play(self, state):
+        scene = self.load_scene(state)
+        state["location"] = scene.start
+        return state
 
-    def move(self, player_state, direction, times=1):
-        scene = self.load_scene(player_state)
+    def move(self, state, direction, times=1):
+        scene = self.load_scene(state)
         
-        if not scene.valid_move(player_state["location"], direction, times):
-            return player_state
+        if not scene.valid_move(state["location"], direction, times):
+            return state
 
         if direction == "n":
-            player_state["location"]["y"] += times
+            state["location"]["y"] += times
         elif direction == "s":
-            player_state["location"]["y"] -= times
+            state["location"]["y"] -= times
         elif direction == "e":
-            player_state["location"]["x"] += times
+            state["location"]["x"] += times
         elif direction == "w":
-            player_state["location"]["x"] -= times
+            state["location"]["x"] -= times
 
-        player_state["turn"] += 1
-        return player_state
+        state["turn"] += 1
+        return state
 
-    def load_scene(self, player_state):
-        story_name = player_state["story"]
+    def load_scene(self, state):
+        story_name = state["story"]
 
-        return Scene(self.build_story_path(story_name), player_state)
+        return Scene(self.build_story_path(story_name), state)
 
-    def scene_map(self, player_state):
-        scene = self.load_scene(player_state)
-        return scene.build_map(player_state)
+    def scene_map(self, state):
+        scene = self.load_scene(state)
+        return scene.build_map(state)
 
-    def narrate(self, player_state):
-        scene = self.load_scene(player_state)
-        narration = scene.view(player_state["location"])
+    def narrate(self, state):
+        scene = self.load_scene(state)
+        narration = scene.view(state["location"])
 
         if narration == None:
             return scene.narration
 
         return narration
 
-    def look(self, player_state):
-        scene = self.load_scene(player_state)
-        player_state, seen = scene.look(player_state)
-        return (player_state, seen)
+    def look(self, state):
+        scene = self.load_scene(state)
+        state, seen = scene.look(state)
+        return (state, seen)
 
-    def describe(self, player_state, char):
-        scene = self.load_scene(player_state)
-        return scene.describe(player_state, char)
+    def describe(self, state, char):
+        scene = self.load_scene(state)
+        return scene.describe(state, char)
+
+    def take(self, state):
+        scene = self.load_scene(state)
+        new_state = scene.take(state)
+        success = len(new_state["inventory"]) > len(state["inventory"])
+        return new_state, success

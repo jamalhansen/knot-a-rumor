@@ -125,3 +125,25 @@ class TestScene:
         state, description = self.scene.describe(state, "d")
         assert None == description
         
+    def test_items_are_not_taken_when_location_is_empty(self):
+        state = {"inventory": [], "location": {"x":1, "y":2}, "seen": []}
+        state = self.scene.take(state)
+        assert "dog" not in state["inventory"]
+
+    def test_items_are_taken_when_location_is_not_empty_and_item_is_not_seen(self):
+        state = {"inventory": [], "location": {"x":2, "y":2}, "seen": []}
+        state = self.scene.take(state)
+        assert "dog" not in state["inventory"]
+
+    def test_items_are_taken_when_location_is_not_empty_and_item_is_seen(self):
+        state = {"inventory": [], "location": {"x":2, "y":2}, "seen": ["dog"]}
+        state = self.scene.take(state)
+        assert "dog" in state["inventory"]
+
+    def test_returns_no_items_at_empty_location(self):
+        items = self.scene.items_at(1,2)
+        assert "dog" not in items
+
+    def test_returns_items_at_a_location(self):
+        items = self.scene.items_at(2,2)
+        assert "dog" in items

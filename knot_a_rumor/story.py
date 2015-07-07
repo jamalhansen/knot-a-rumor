@@ -162,3 +162,15 @@ class Scene():
             return state, None
 
         return state, item_list[0]["description"]
+
+    def take(self, state):
+        items = self.items_at(state["location"]["x"], state["location"]["y"])
+        seen_items = list(filter(lambda x: x in state["seen"], items))
+        state["inventory"].extend(seen_items)
+        return state
+
+    def items_at(self, x, y):
+        items = self.items.items()
+        pairs = list(filter(lambda t: t[1]["x"] == x and t[1]["y"] == y, items))
+        keys = list(map(lambda t: t[0], pairs))
+        return keys

@@ -196,3 +196,28 @@ class TestPennyCanInspectAStory:
         assert "small box" in description
         assert "penny" in description
         # Penny quits the game ot ponder the possibilities
+
+    def test_penny_pickes_up_items_in_the_scene(self):
+        # Once again the joy of living the Pennylvanian Railroad Scene brings Penny back to
+        # the knot-a-rumor powered story. This time she wants to pick up some items and keep them
+
+        # Starts the story
+        self.player_state = self.library.init_story(self.pennys_story)
+        self.player_state = self.library.play(self.player_state)
+
+        # Penny starts the story and uses the 'look' action to view what is 
+        # around her.
+        self.player_state, seen = self.library.look(self.player_state)
+        
+        # Seeing the newspaper on the map she attempts to pick it up, but she is unable to 
+        # since she is not in the correct location
+        self.player_state, success = self.library.take(self.player_state)
+        assert success == False
+        assert "newspaper" not in self.player_state["inventory"]
+
+        # She moves west to stand in the same space as the newspaper and tries again.
+        self.player_state = self.library.move(self.player_state, 'w')
+        self.player_state, success = self.library.take(self.player_state)
+        assert success
+        assert "newspaper" in self.player_state["inventory"]
+
