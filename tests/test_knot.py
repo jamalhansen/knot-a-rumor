@@ -198,10 +198,9 @@ class TestKnot:
         state = self.library.init_story("basic")
         state = self.library.play(state)
         state, seen = self.library.look(state)
-        assert "dog" in seen
-        self.set_location(state, 2, 2)
+        state = self.library.move(state, "e")
         state, success = self.library.take(state)
-        assert success == True
         assert "dog" in state["inventory"]
+        assert success
 
 

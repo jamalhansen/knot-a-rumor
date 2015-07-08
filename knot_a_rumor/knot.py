@@ -81,6 +81,7 @@ class Knot:
 
     def take(self, state):
         scene = self.load_scene(state)
+        old_len = len(state["inventory"])
         new_state = scene.take(state)
-        success = len(new_state["inventory"]) > len(state["inventory"])
+        success = len(new_state["inventory"]) > old_len
         return new_state, success

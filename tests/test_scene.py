@@ -136,14 +136,20 @@ class TestScene:
         assert "dog" not in state["inventory"]
 
     def test_items_are_taken_when_location_is_not_empty_and_item_is_seen(self):
-        state = {"inventory": [], "location": {"x":2, "y":2}, "seen": ["dog"]}
+        state = {"inventory": [], "location": {"x":2, "y":2}, "seen": [1]}
         state = self.scene.take(state)
         assert "dog" in state["inventory"]
 
     def test_returns_no_items_at_empty_location(self):
         items = self.scene.items_at(1,2)
-        assert "dog" not in items
+        assert len(items) == 0
 
     def test_returns_items_at_a_location(self):
         items = self.scene.items_at(2,2)
-        assert "dog" in items
+        assert len(items) == 1
+
+    def test_items_at_returns_key_value_pair(self):
+        items = self.scene.items_at(2,2)
+        assert items[0][0] == "dog"
+        assert items[0][1]["x"] == 2
+        assert items[0][1]["y"] == 2
