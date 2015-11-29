@@ -26,7 +26,7 @@ class TestKnot:
 
     def test_knot_get_story_returns_story(self):
         story = self.library.get_story("basic")
-        assert type(story) is Story
+        assert isinstance(story, Story)
 
     def test_build_story_path_includes_story_name(self):
         path = self.library.build_story_path("wonky")
@@ -76,7 +76,7 @@ class TestKnot:
 
     def test_load_scene_returns_scene(self):
         player_state = self.library.init_story("basic")
-        assert type(self.library.load_scene(player_state)) == Scene
+        assert isinstance(self.library.load_scene(player_state), Scene)
 
     def test_can_return_scene_map(self):
         player_state = self.library.init_story("basic")
