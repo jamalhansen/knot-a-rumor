@@ -1,6 +1,8 @@
 # knot-a-rumor
 A python based story telling platform that is part interactive story and part art project
 
+![Travis CI status](https://travis-ci.org/jamalhansen/knot-a-rumor.svg)
+
 ## Synopsis
 
 At the top of the file there should be a short introduction and/ or overview that explains **what** the project is. This description should match descriptions added for package managers (Gemspec, package.json, etc.)
