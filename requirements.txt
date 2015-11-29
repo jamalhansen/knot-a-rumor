@@ -1,4 +1,4 @@
--e git+git@github.com:rubyyot/knot-a-rumor.git@02e755050ac9ce59a835e26468db18ad05609c46#egg=knot_a_rumor-origin/master
 py==1.4.30
 pytest==2.7.2
-test-pkg==0.0
+PyYAML==3.11
+wheel==0.24.0

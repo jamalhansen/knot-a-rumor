@@ -10,7 +10,7 @@ class TestKnot:
     def prepare_knot(self):
         self.path = join(getcwd(), "tests", "fixtures", "library")
         self.library = Knot(self.path)
- 
+
     def set_location(self, player_state, x, y):
         player_state["location"]["x"] = x
         player_state["location"]["y"] = y
@@ -154,7 +154,7 @@ class TestKnot:
         new_y = player_state["location"]["y"]
 
         assert new_x == old_x + 2
-        assert new_y == old_y    
+        assert new_y == old_y
 
     def test_player_can_look_to_see_items_on_map(self):
         state = self.library.init_story("basic")
