@@ -2,6 +2,7 @@
 A python based story telling platform that is part interactive story and part art project
 
 ![Travis CI status](https://travis-ci.org/jamalhansen/knot-a-rumor.svg)
+[![Coverage Status](https://coveralls.io/repos/jamalhansen/knot-a-rumor/badge.svg?branch=master&service=github)](https://coveralls.io/github/jamalhansen/knot-a-rumor?branch=master)
 
 ## Synopsis
 
